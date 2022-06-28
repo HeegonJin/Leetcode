@@ -11,7 +11,7 @@ public class Solution {
         int count = 1;
 
         for (int i = 0; i < strings.length; i++) {
-            if (i == strings.length - 1 ) {
+            if (i == strings.length - 1) {
                 list.add(count);
                 continue;
             }
@@ -24,38 +24,58 @@ public class Solution {
                 count = 1;
             }
         }
-
-        Integer hole;
         list.sort(null);
-        System.out.println(list);
+        count = 1;
+        ArrayList<Integer> holes = new ArrayList<>();
 
-            if (list.get(0) <= 1) hole = null;
-            else hole = list.get(0) - 1;
-
-            for (int i = 0; i < list.size(); i++) {
-                if (i == list.size()-1) {
-                    continue;
-                }
-                if (list.get(i) != list.get(i + 1)) {
-                    if (list.get(i + 1) - list.get(i)  == 1) continue;
-                    else hole = list.get(i+1) - 1;
-                } else {
-                    if (hole == null) {
-                        result += list.get(i);
-                        list.remove(i);
-                    } else {
-                        result += list.get(i) - hole;
-                        list.set(i, list.get(i) - hole);
-                        list.sort(null);
-                    }
-                    hole = (hole != null && hole - 1 > 0) ? hole - 1 : null;
+        Map<Integer, Integer> target = new HashMap<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (i == 0) {
+                for (int j = 1; j < list.get(i); j++) {
+                    holes.add(j);
                 }
             }
+            if (i == list.size() - 1) {
+                if (count > 1) {
+                    target.put(list.get(i), count-1);
+                }
+                continue;
+            }
+            if (list.get(i).equals(list.get(i + 1))) {
+                count++;
+                continue;
+            } else {
+                if (count > 1) {
+                    target.put(list.get(i), count-1);
+                    count = 1;
+                }
+                for (int j = list.get(i) + 1; j < list.get(i + 1); j++) {
+                    holes.add(j);
+                }
+            }
+        }
+
+        if (Collections.max(target.entrySet(), Comparator.comparingInt(Map.Entry::getKey)).getKey() < holes.get(holes.size()-1)){
+            holes.remove(holes.size()-1);
+        }
+
+        int targetSize = target.values().stream().mapToInt(Integer::intValue).sum();
+        int holeSize = holes.size();
+        int targetSum = target.entrySet().stream().mapToInt(e -> e.getKey() * e.getValue()).sum();
+
+        if (targetSize > holeSize){
+            result = targetSum - holes.stream().mapToInt(Integer::intValue).sum();
+        } else{
+            for (int i = 0; i < targetSize; i++){
+                targetSum -= holes.get(holeSize - 1 - i);
+            }
+            result = targetSum;
+        }
+        System.out.println(result);
         return result;
     }
 
-
     public static void main(String[] args) {
-        minDeletions("jbddhjemmnhaflahionjoddojoliimdcailihfdleahgbafnknblkheeicoonffenhhmgfhgmnjk");
+        minDeletions("fblkeacljlekiiddgbdibbhfafgmigghfiejilnjbclejlcabgkocbbbhnalmikjojildlfhjdgbgdhooiddbniedaabmk");
     }
 }
