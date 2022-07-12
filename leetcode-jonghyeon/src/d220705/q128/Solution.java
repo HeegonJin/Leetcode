@@ -1,9 +1,6 @@
 package d220705.q128;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Solution {
     static int longestConsecutive(int[] nums) {
