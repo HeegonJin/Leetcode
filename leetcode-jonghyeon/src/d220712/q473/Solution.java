@@ -1,5 +1,7 @@
 package d220712.q473;
 
+import java.util.Arrays;
+
 public class Solution {
 //    static boolean makesquare(int[] matchsticks) {
 //        int sum = Arrays.stream(matchsticks).sum();
@@ -78,27 +80,27 @@ public class Solution {
 //        return false;
 //    }
 
-//    static boolean makesquare3(int[] matchsticks){
-//        int sum = Arrays.stream(matchsticks).sum();
-//        if (sum % 4 != 0) return false;
-//        int sideLength = sum / 4;
-//        int[] sides = new int[4];
-//        return backtrack(0,matchsticks,sides,sideLength);
-//    }
-//
-//    static boolean backtrack(int index, int[] matchsticks, int[] sides, int sideLength){
-//        if (index == matchsticks.length) return true;
-//        for (int i = 0; i < 4; i++){
-//            if (sides[i] + matchsticks[index] < sideLength){
-//                sides[i] += matchsticks[index];
-//                if (backtrack(index+1, matchsticks, sides, sideLength)){
-//                    return true;
-//                }
-//                sides[i] -= matchsticks[index];
-//            }
-//        }
-//        return false;
-//    }
+    static boolean makesquare3(int[] matchsticks){
+        int sum = Arrays.stream(matchsticks).sum();
+        if (sum % 4 != 0) return false;
+        int sideLength = sum / 4;
+        int[] sides = new int[4];
+        return backtrack(0,matchsticks,sides,sideLength);
+    }
+
+    static boolean backtrack(int index, int[] matchsticks, int[] sides, int sideLength){
+        if (index == matchsticks.length) return true;
+        for (int i = 0; i < 4; i++){
+            if (sides[i] + matchsticks[index] <= sideLength){
+                sides[i] += matchsticks[index];
+                if (backtrack(index+1, matchsticks, sides, sideLength)){
+                    return true;
+                }
+                sides[i] -= matchsticks[index];
+            }
+        }
+        return false;
+    }
 
 //    public static void main(String[] args) {
 //        System.out.println(makesquare(new int[]{1,1,2,2,2}));
