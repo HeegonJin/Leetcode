@@ -37,9 +37,14 @@ class Solution:
                     result = tracking(1, one_side, confirmed + 1)
                 else:
                     result = tracking(index+1, space-cur_match, confirmed)
+                
                 if result:
                     return True
+
+                # 끝까지 검사해도 맞는 성냥개비가 없으면 되돌려놓기
                 matchsticks[index] = cur_match
+
+                # 검사하는 성냥개비가 같은 것은 뛰어넘기
                 while index < size and matchsticks[index] == cur_match:
                     index += 1
             return False
